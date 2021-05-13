@@ -1,0 +1,10 @@
+environment: ${ENVIRONMENT}
+logger:
+  debug: ${LOGGER_DEBUG}
+api_service:
+  # common
+  server_address: ${API_SERVICE_SERVER_ADDRESS}
+  # tiniapp
+  client_id: ${API_SERVICE_CLIENT_ID}
+  client_secret: ${API_SERVICE_CLIENT_SECRET}
+  tiniapp_server_address: ${API_SERVICE_TINIAPP_SERVER_ADDRESS}

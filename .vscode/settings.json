@@ -1,0 +1,7 @@
+{
+  "go.useLanguageServer": true,
+  "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testEnvVars": {
+    "CONFIG_PATH": "${workspaceFolder}/config.yaml"
+  },
+}
