@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,11 +56,10 @@ func (s *Service) GetAccessTokenFromRefreshToken() gin.HandlerFunc {
 		timestamp := time.Now().UnixNano() / int64(time.Millisecond)
 		data := map[string]interface{}{
 			"refresh_token": input.RefreshToken,
-			"client_id":     s.Config.ClientID,
-			"timestamp":     timestamp,
 		}
 
-		signature, err := pkg_signature.SignWithData(s.Config.ClientSecret, data)
+		signingPayload, _ := pkg_signature.PreparePayload(timestamp, s.Config.ClientID, data)
+		signature, err := pkg_signature.SignWithPayload(s.Config.ClientSecret, signingPayload)
 		if err != nil {
 			logger.Errorf("could not calculate signature, error: %+v", err)
 			c.JSON(
@@ -75,13 +75,14 @@ func (s *Service) GetAccessTokenFromRefreshToken() gin.HandlerFunc {
 			return
 		}
 
-		data["signature"] = signature
 		logger.Debug(data)
-
 		result := refreshAuthAccessTokenResult{}
 		resp, err := s.HTTPClient.R().
 			SetHeader("content-type", "application/json").
 			SetHeader("x-request-id", uuid.NewString()).
+			SetHeader("X-Tiniapp-Timestamp", strconv.FormatInt(timestamp, 10)).
+			SetHeader("X-Tiniapp-Client-Id", s.Config.ClientID).
+			SetHeader("X-Tiniapp-Signature", signature).
 			SetBody(data).
 			SetResult(&result).
 			Post(fmt.Sprintf("%s%s", s.Config.TiniAppServerAddress, "/api/v1/oauth/auth/token/refresh"))
