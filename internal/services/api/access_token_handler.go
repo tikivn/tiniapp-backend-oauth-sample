@@ -86,7 +86,7 @@ func (s *Service) GetAccessTokenFromAuthCode() gin.HandlerFunc {
 			SetHeader("X-Tiniapp-Signature", signature).
 			SetBody(data).
 			SetResult(&result).
-			Post(fmt.Sprintf("%s%s", s.Config.TiniAppServerAddress, "/api/v1/oauth/auth/token"))
+			Post(fmt.Sprintf("%s%s", s.Config.TiniAppServerAddress, "/oauth/auth/token"))
 
 		logger.Debug(resp, err)
 

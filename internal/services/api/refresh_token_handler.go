@@ -85,7 +85,7 @@ func (s *Service) GetAccessTokenFromRefreshToken() gin.HandlerFunc {
 			SetHeader("X-Tiniapp-Signature", signature).
 			SetBody(data).
 			SetResult(&result).
-			Post(fmt.Sprintf("%s%s", s.Config.TiniAppServerAddress, "/api/v1/oauth/auth/token/refresh"))
+			Post(fmt.Sprintf("%s%s", s.Config.TiniAppServerAddress, "/oauth/auth/token/refresh"))
 
 		logger.Debug(resp, err)
 
