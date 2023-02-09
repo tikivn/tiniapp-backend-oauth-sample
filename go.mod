@@ -3,7 +3,7 @@ module tiniapp-backend-oauth-sample
 go 1.16
 
 require (
-	github.com/gin-gonic/gin v1.7.1
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/google/subcommands v1.0.1
 	github.com/google/uuid v1.2.0
